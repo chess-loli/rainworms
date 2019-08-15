@@ -12,40 +12,16 @@
 
         <div id="root">
 
-            <button @click="throwDice">throw dice</button>
+            <button @click="throwDice" class="button is-primary" style="margin-top: 40px;">throw dice</button>
 
-            <h1> {{ dice }} </h1>
-            <diceTable>{{ dice }}</diceTable>
+            <h1 style="margin-top: 40px"> your dice rolls are: {{ dice }} </h1>
+            <dice-table :dice="dice"></dice-table>
             
 
         </div>
 
         <script src="main.js"></script>
 
-        <script>
-            var app = new Vue({
-                
-                el: '#root',
-
-                data: {
-                   dice: []
-
-                },
-                methods: {
-                    throwDice() {
-                        this.dice.push(Math.floor(Math.random() * 6) + 1) 
-                        this.dice.push(Math.floor(Math.random() * 6) + 1)   
-                        this.dice.push(Math.floor(Math.random() * 6) + 1)
-                        this.dice.push(Math.floor(Math.random() * 6) + 1)
-                        this.dice.push(Math.floor(Math.random() * 6) + 1)
-                        this.dice.push(Math.floor(Math.random() * 6) + 1)
-                        this.dice.push(Math.floor(Math.random() * 6) + 1)
-                        this.dice.push(Math.floor(Math.random() * 6) + 1)
-                        this.dice.sort()
-                    }
-                },
-            })
-        </script>
-
+        
     </body>
 </html>
