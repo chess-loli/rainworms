@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>  
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+</head>
+<body>
+    <div id="root">
+        <button @click="throwDice" class="button is-primary" style="margin-top: 40px;">throw dice</button>
+        <h1 style="margin-top: 40px"> your dice rolls are: {{ dice }} </h1>
+        <scoresheet :dice='dice'></scoresheet>
+
+    </div>
+    <script src="https://unpkg.com/vue@2.1.3/dist/vue.js"></script>
+    <script src="yahtzee.js"></script>
+</body>
+</html>
