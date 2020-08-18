@@ -30,22 +30,23 @@ export default new Vuex.Store({
       state.players.push(player)
     },
     takeTileIfPossibleMutation (state, diceScore) {
-      for (var i = 0; i < state.globalTiles.length; i++) {
-        if (state.globalTiles[i].tileNo === diceScore) {
-          state.players[state.turnOrderDetermination].tiles.push(state.globalTiles[i])
-          state.globalTiles.splice(i, 1)
-          return
+      var currentPlayer = state.players[state.turnOrderDetermination]
+      if (diceScore >= 21) {
+        for (var i = 0; i < state.globalTiles.length; i++) {
+          if (state.globalTiles[i].tileNo === diceScore) {
+            currentPlayer.tiles.push(state.globalTiles[i])
+            state.globalTiles.splice(i, 1)
+            return
+          }
         }
-      }
-      for (var player of state.players) {
-        if (player.tiles[player.tiles.length - 1] === diceScore) {
-          state.tempPlayer = player
-          state.players[state.turnOrderDetermination].tiles.push(state.tempPlayer.tiles[state.tempPlayer.tiles.length - 1])
-          state.tempPlayer.tiles.splice(state.tempPlayer.tiles[state.tempPlayer.tiles.length - 1], 1)
-          player.tiles.splice(player.tiles[player.tiles.length - 1], 1)
-          return
+        for (var player in state.players) {
+          if (player.tiles[player.tiles.length - 1] === diceScore) {
+            currentPlayer.tiles.push(player.tiles[player.tiles.length - 1])
+            player.tiles.splice(player.tiles[player.tiles.length - 1], 1)
+            return
+          }
         }
-      }
+      } else { alert('dit is geen geldige score, volgende speler is aan de beurt') }
     },
     setScoreMutation (state) {
       for (var player of state.players) {
@@ -56,9 +57,6 @@ export default new Vuex.Store({
       }
     },
     endTurnMutation (state) {
-      // if (state.tempPlayer !== {} || state.tempPlayer !== undefined) {
-      //   state.tempPlayer = state.players[state.turnOrderDetermination]
-      // }
       state.tempPlayer = {}
     },
     addNewPlayerMutation (state, player) {

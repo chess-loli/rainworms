@@ -15,6 +15,11 @@
         </div>
         <br>
         <div>
+          <p>gekozen nummers: </p>
+          <p v-for="num in excludedNumList" :key="num">{{ num }}</p>
+        </div>
+        <br>
+        <div>
           <button @click="endTurn">beëindig beurt</button>
         </div>
         <div>
@@ -44,6 +49,7 @@ export default {
       var currentplayer = this.$store.getters.determineCurrentPlayer
       alert('het is nu ' + currentplayer.name + ' zijn/haar beurt')
       this.currentDiceScore = 0
+      this.dice = []
       this.$store.dispatch('setScoreAction')
       this.$store.dispatch('endTurnAction')
     },
@@ -59,12 +65,14 @@ export default {
       this.excludedNumList = []
     },
     rollDice () {
-      var x = this.diceTaken.length
-      for (var i = 0; i < (8 - x); i++) {
-        this.dice.push(Math.floor(Math.random() * 6) + 1)
-      }
-      this.$store.dispatch('addDiceToGlobalAction', this.dice)
-      this.currentDiceScore = this.$store.getters.diceScore
+      if (this.dice.length === 0) {
+        var x = this.diceTaken.length
+        for (var i = 0; i < (8 - x); i++) {
+          this.dice.push(Math.floor(Math.random() * 6) + 1)
+        }
+        this.$store.dispatch('addDiceToGlobalAction', this.dice)
+        this.currentDiceScore = this.$store.getters.diceScore
+      } else { alert('eerst een nummer kiezen, dan pas rollen! of beëindig uw beurt.') }
     },
     removeNum () {
       if (this.dice.length > 0) {
@@ -138,15 +146,19 @@ export default {
             this.$store.dispatch('addDiceToGlobalAction', this.dice)
             this.$store.dispatch('addTakenDiceToGlobalAction', this.diceTaken)
           } else if (this.excludedNumList.includes(this.excludedNum) === true && this.excludedNumList.includes(this.dice[i] || this.dice[i + 1] || this.dice[i + 2] || this.dice[i + 3] || this.dice[i + 4] || this.dice[i + 5]) !== true) {
-            alert('dit nummer is al gebruikt en kan niet nog een keer gekozen worden, helaas.')
+            alert('dit nummer is al gebruikt en kan niet nog een keer gekozen worden, helaas. beëindig uw beurt of kies een ander nummer dat nog wel mogelijk is.')
+            break
           } else if (this.excludedNumList.includes(this.dice[i]) === true && this.excludedNumList.includes(this.excludedNum) === true) {
             alert('geen zet meer mogelijk')
+            break
           }
         }
       } else { alert('eerst rollen kukel!') }
-      this.excludedNumList.push(this.excludedNum)
+      if (this.excludedNumList.includes(this.excludedNum) === false) {
+        this.excludedNumList.push(this.excludedNum)
+      } else { alert('dit cijfer is al een keer gekozen') }
       this.currentDiceScore = this.$store.getters.diceScore
-      // need some work on this still
+      this.dice = []
     },
     reset () {
       if (this.dice.length >= 1) {
