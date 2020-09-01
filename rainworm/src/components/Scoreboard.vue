@@ -12,10 +12,10 @@
 
         <div v-if="this.currentPlayer !== undefined && this.currentPlayer !== {}">
           <p>{{currentPlayer.name}} is aan de beurt met een score van {{currentPlayer.score}} en de volgende tegels: </p>
-          <p v-for="tile in currentPlayer.tiles" :key="tile.tileNo">[{{tile.tileNo + ', '}}]</p>
+          <p><img v-for="tile in currentPlayer.tiles" :key="tile.tileNo" :src="tile.imgurl" :alt="tile.imgalt"></p>
         </div>
         <div v-for="participant in properScoreboard" :key="participant.name">
-          <p>{{participant.name}}: {{participant.score}}</p>
+          <p>{{participant.name}}: {{participant.score}} wormen</p>
         </div>
     </div>
 </template>

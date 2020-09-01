@@ -39,8 +39,8 @@ export default new Vuex.Store({
             return
           }
         }
-        for (var player in state.players) {
-          if (player.tiles[player.tiles.length - 1] === diceScore) {
+        for (var player of state.players) {
+          if (player.tiles[player.tiles.length - 1].tileNo === diceScore) {
             currentPlayer.tiles.push(player.tiles[player.tiles.length - 1])
             player.tiles.splice(player.tiles[player.tiles.length - 1], 1)
             return
@@ -50,9 +50,9 @@ export default new Vuex.Store({
     },
     setScoreMutation (state) {
       for (var player of state.players) {
+        player.score = 0
         for (var tiles of player.tiles) {
           player.score += tiles.value
-          return
         }
       }
     },
